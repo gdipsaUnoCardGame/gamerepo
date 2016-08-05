@@ -5,14 +5,10 @@
  */
 package sa42.uno.rest;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-
 /**
  *
  * @author BP
  */
-@ApplicationPath("api")
-public class RESTAppConfig extends Application{
+public class GameResource {
     
 }
