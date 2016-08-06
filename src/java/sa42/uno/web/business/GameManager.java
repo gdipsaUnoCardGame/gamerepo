@@ -8,27 +8,33 @@ package sa42.uno.web.business;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import javax.ejb.Stateless;
+
 import sa42.uno.model.Game;
 
 /**
  *
  * @author BP
  */
+@Stateless
 public class GameManager {
     
     private Map<String,Game> games;
-    
-    private void addSomeGames(){
+  
+    public Map<String,Game> browseAvailableGames(){
+        
         games = new HashMap<>();
         String id = UUID.randomUUID().toString().substring(0, 8);
         games.put(id, new Game(id,"game1"));
-    }
-    
-    public Map<String,Game> browseAvailableGames(){
-        
-        addSomeGames();
         return games;
     }
+    
+    public Game getOneGame(){
+        return new Game(UUID.randomUUID().toString().substring(0, 8),"game2");
+    }
+    
+    
+    
     
     
 }
