@@ -53,6 +53,6 @@ public class GameResource {
             arrBuilder.add(j);
         });
 
-        return (Response.ok(arrBuilder.build()).build());
+        return (Response.ok(arrBuilder.build()).header("Access-Control-Allow-Origin","http://localhost:63342").build());
     }
 }
