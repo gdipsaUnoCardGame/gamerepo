@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+<<<<<<< HEAD
+=======
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/BP/NetBeansProjects/gamerepo/src/java/sa42/uno/rest/GameResource.java</file>
+            <file>file:/Users/BP/NetBeansProjects/gamerepo/src/java/sa42/uno/web/business/GameManager.java</file>
+            <file>file:/Users/BP/NetBeansProjects/gamerepo/src/java/sa42/uno/web/business/UserManager.java</file>
+        </group>
+    </open-files>
+>>>>>>> refs/remotes/origin/master
 </project-private>

@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sa42.uno.test;
+package sa42.uno.rest;
+
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
 /**
  *
  * @author BP
  */
-public class test {
+@ApplicationPath("api")
+public class RESTAppConfig extends Application{
     
 }
