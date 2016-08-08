@@ -16,6 +16,7 @@ import sa42.uno.model.Game;
  *
  * @author BP
  */
+
 @Stateless
 public class GameManager {
     
