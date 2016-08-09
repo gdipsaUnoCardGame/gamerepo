@@ -8,30 +8,36 @@ package sa42.uno.web.business;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 
 import sa42.uno.model.Game;
+import sa42.uno.model.Player;
 
 /**
  *
  * @author BP
  */
-@Stateless
+@ApplicationScoped
 public class GameManager {
     
-    private Map<String,Game> games;
+    public static Map<String,Game> games;
+    public static String id = UUID.randomUUID().toString().substring(0, 8);
   
-    public Map<String,Game> browseAvailableGames(){
+    public Map<String,Game> browseAvailableGames(String username){
         
         games = new HashMap<>();
-        String id = UUID.randomUUID().toString().substring(0, 8);
+        
         games.put(id, new Game(id,"game1"));
+        games.get(id).addPlayer(new Player("bob"));
+        games.get(id).setStatus(Game.Status.Started);
+        games.get(id).distributeCards();
         return games;
     }
     
-    public Game getOneGame(){
-        return new Game(UUID.randomUUID().toString().substring(0, 8),"game2");
+    public Game getOneGame(String gameId){
+        return games.get(id);
     }
+    
     
     
     

@@ -6,15 +6,18 @@
 package sa42.uno.rest;
 
 import java.util.Map;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import sa42.uno.model.Game;
+import sa42.uno.model.Player;
 import sa42.uno.web.business.GameManager;
 
 /**
@@ -22,27 +25,28 @@ import sa42.uno.web.business.GameManager;
  * @author BP
  */
 @RequestScoped
-@Path("/game")
+@Path("/games")
 public class GameResource {
-
-    @EJB
+    
+    @Inject
     private GameManager mgr;
 
     @GET
-    @Path("/browse")
+    @Path("/{gid}")
     @Produces("application/json")
-    public Response browse() {
+    public Response join(@PathParam("gid")String gameId,
+            @QueryParam("username")String username) {
 
-        Game game = mgr.getOneGame();
-
+        Game game = mgr.getOneGame(gameId);
+        Player p = new Player(username);
+        game.addPlayer(p);
         return (Response.ok(game.toJson()).build());
     }
 
-    @GET
-    @Path("/browsemany")
+    @GET 
     @Produces("application/json")
-    public Response browsemany() {
-        Map<String, Game> games = mgr.browseAvailableGames();
+    public Response browsemany(@QueryParam("username")String name) {
+        Map<String, Game> games = mgr.browseAvailableGames(name);
 
         JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
 

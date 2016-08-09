@@ -5,11 +5,11 @@
  */
 package sa42.uno.rest;
 
-
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import sa42.uno.model.Game;
@@ -21,21 +21,22 @@ import sa42.uno.web.business.GameManager;
  * @author BP
  */
 @RequestScoped
-@Path("/user")
-public class UserResource {
+@Path("/games")
+public class PlayerResource {
+    @Inject private GameManager mgr;
     
     
-    
-    
-    
-    @POST
-    @Path("/register")
+    @GET
+    @Path("{gid}/players/{name}")
     @Produces("application/json")
-    public Response register(){
+    public Response viewHand(@PathParam("gid")String gameId,@PathParam("name")String name){
+        Game game = mgr.getOneGame(gameId);
         
-        return null;
+        
+        Player player = game.getPlayers().get(name);
+        
+        return (Response.ok(player.toJson()).header("Access-Control-Allow-Origin","http://localhost:63342").build());
+      
     }
-    
-    
     
 }
