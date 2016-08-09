@@ -7,6 +7,7 @@ package sa42.uno.web.business;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 
@@ -34,8 +35,9 @@ public class GameManager {
         return games;
     }
     
-    public Game getOneGame(String gameId){
-        return games.get(id);
+    public Optional<Game> getOneGame(String gameId){
+        
+        return Optional.ofNullable(games.get(id));
     }
     
     

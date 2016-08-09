@@ -5,12 +5,14 @@
  */
 package sa42.uno.rest;
 
+import java.util.Optional;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import sa42.uno.model.Game;
 import sa42.uno.model.Player;
@@ -28,14 +30,23 @@ public class PlayerResource {
     
     @GET
     @Path("{gid}/players/{name}")
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response viewHand(@PathParam("gid")String gameId,@PathParam("name")String name){
-        Game game = mgr.getOneGame(gameId);
         
+        Optional<Game> opt = mgr.getOneGame(gameId);
+        if (!opt.isPresent()){
+            return (Response.status(Response.Status.NOT_FOUND).build());
+        }
+        Game game = opt.get();
+
+        Optional<Player> optPlayer = game.getPlayer(name);
+        if (!optPlayer.isPresent()){
+            return (Response.status(Response.Status.NOT_FOUND).build());
+        }
+        Player player = optPlayer.get();
         
-        Player player = game.getPlayers().get(name);
-        
-        return (Response.ok(player.toJson()).header("Access-Control-Allow-Origin","http://localhost:63342").build());
+        return (Response.ok(player.toJson()).header(
+                "Access-Control-Allow-Origin","http://localhost:63342").build());
       
     }
     
