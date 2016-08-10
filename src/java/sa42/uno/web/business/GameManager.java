@@ -30,8 +30,8 @@ public class GameManager {
         
         games.put(id, new Game(id,"game1"));
         games.get(id).addPlayer(new Player("bob"));
-        games.get(id).setStatus(Game.Status.Started);
-        games.get(id).distributeCards();
+        //games.get(id).setStatus(Game.Status.Started);
+        //games.get(id).distributeCards();
         return games;
     }
     
