@@ -19,11 +19,7 @@ import javax.persistence.Table;
  *
  * @author BP
  */
-@NamedQueries({
-	@NamedQuery(name = "Users.findByUserId", 
-			query = "select u from Users u where u.userid = :userId"),	
-})
-@Entity
+
 @Table(name="users")
 public class Users implements Serializable{
     @Id

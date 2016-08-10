@@ -1,4 +1,4 @@
-var rootURL = "http://localhost:18815/uno/api/games";
+var rootURL = "http://localhost:8080/uno/api/games";
 
 var currentGame;
 

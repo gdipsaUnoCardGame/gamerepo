@@ -17,7 +17,7 @@ import javax.persistence.Table;
  *
  * @author BP
  */
-@Entity
+
 @Table(name = "groups")
 public class Groups implements Serializable{
     

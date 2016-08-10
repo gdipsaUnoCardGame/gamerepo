@@ -25,6 +25,7 @@ import sa42.uno.web.business.GameManager;
 @RequestScoped
 @Path("/games")
 public class PlayerResource {
+    
     @Inject private GameManager mgr;
     
     
