@@ -20,8 +20,8 @@ import sa42.uno.model.Player;
 @ApplicationScoped
 public class GameManager {
     
-    public static Map<String,Game> games;
-    public static String id = UUID.randomUUID().toString().substring(0, 8);
+    public Map<String,Game> games;
+    public String id = UUID.randomUUID().toString().substring(0, 8);
   
     public Map<String,Game> browseAvailableGames(String username){
         

@@ -5,6 +5,7 @@
  */
 package sa42.uno.web.business;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
@@ -25,6 +26,9 @@ public class UserManager {
 
     private static final String REGISTER_USER = "insert u from users u";
 
+    @Resource(lookup="jdbc/authdb")
+    
+    
     @PersistenceContext
     private EntityManager em;
 
