@@ -5,23 +5,6 @@
  */
 package sa42.uno.rest;
 
-import java.util.Map;
-import java.util.Optional;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import sa42.uno.model.Game;
-import sa42.uno.model.Player;
-import sa42.uno.web.business.GameManager;
 
 /**
  *
@@ -69,4 +52,47 @@ public class GameResource {
         return (Response.ok(arrBuilder.build()).header(
                 "Access-Control-Allow-Origin","http://localhost:63342").build());
     }
+    
+@Path("/games")
+@Consumes("application/json")
+@Produces("application/json")
+
+    @GET
+    public JsonArray getAll() {
+        final JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        for (JsonObject game : GameManagerr.getAll()) {
+            arrayBuilder.add(game);
+        }
+        return arrayBuilder.build();
+    }
+
+    @GET
+    @Path("{id}")
+    public JsonObject get(@PathParam("id") int id) {
+        return GameManagerr.get(id);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public JsonObject remove(@PathParam("id") int id) {
+        return GameManagerr.remove(id);
+    }
+
+    @DELETE
+    public void removeAll() {
+        GameManagerr.removeAll();
+    }
+
+    @POST
+    public JsonArray create(JsonObject game) {
+        return Json.createArrayBuilder().add(GameManagerr.create(game)).build();
+    }
+    
+    @POST
+    @Path("{id}")
+    public JsonObject start(@PathParam("id") int id) {
+        JsonObject json = GameManagerr.start(id);
+        return json;
+    }
 }
+
