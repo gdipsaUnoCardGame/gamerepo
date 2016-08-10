@@ -5,11 +5,15 @@
  */
 package sa42.uno.rest;
 
+
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import sa42.uno.web.business.UserManager;
 
 /**
  *
@@ -19,14 +23,27 @@ import javax.ws.rs.core.Response;
 @Path("/user")
 public class UserResource {
     
+    @EJB UserManager mgr;
+    
+    
+    
     @POST
     @Path("/register")
-    @Produces("application/json")
-    public Response register(){
+    @Produces("text/plain")
+    public Response register(
+            @FormParam("username")String username,
+            @FormParam("password")String password){
+        Boolean result = mgr.registerUser(username, password);
         
-        return null;
+        if(result){
+            return (Response.ok("ok")
+                    .header("Access-Control-Allow-Origin","http://localhost:63342").build());
+        }else{
+            return (Response.noContent().build());
+        }       
     }
     
     
     
 }
+

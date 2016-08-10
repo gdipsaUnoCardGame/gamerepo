@@ -10,15 +10,17 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-
 import sa42.uno.model.Game;
 import sa42.uno.model.Player;
+
 
 
 /**
@@ -26,87 +28,61 @@ import sa42.uno.model.Player;
  * @author BP
  */
 
-@Stateless
+@ApplicationScoped
 public class GameManager {
     
-    private Map<String,Game> games;
-  
-    public Map<String,Game> browseAvailableGames(){
+    private Map<String,Game> games = new HashMap<>();  
+    
+    public Map<String,Game> browseAvailableGames(String username){
         
-        games = new HashMap<>();
-        String id = UUID.randomUUID().toString().substring(0, 8);
-        games.put(id, new Game(id,"game1"));
+        //TODO some filtering by player
+        
+       return games;
+    }
+    
+    public Optional<Game> getOneGame(String gameId){
+        
+        return Optional.ofNullable(games.get(gameId));
+    }
+   
+    public Map<String,Game> getAll() {
         return games;
     }
     
-    public Game getOneGame(){
-        return new Game(UUID.randomUUID().toString().substring(0, 8),"game2");
-    }
-   
-
-/**
- *
- * @author Kishore
- */
-
-    private static final Map<Integer, JsonObject> gameJsonMap = new LinkedHashMap<>();
-    private static final Map<Integer, Game> gameMap = new LinkedHashMap<>();
-    private static final AtomicInteger counter = new AtomicInteger(0);
-    
-    public static Collection<JsonObject> getAll() {
-        return gameJsonMap.values();
-    }
-    
-    public static JsonObject get(int id) {
-        return gameJsonMap.get(id);
-    }
-    
-    public static JsonObject remove(int id) {
+    /*
+    public JsonObject remove(String gameId) {
         return gameJsonMap.remove(id);
     }
 
-    public static void removeAll() {
+    public void removeAll() {
         gameJsonMap.clear();
     }
+    */
 
-    public static int create(JsonObject game) {
-        final int id = counter.addAndGet(1);
-
-        Game myGame = new Game();
-        myGame.createNewGame(""+game.getJsonString("name"));
+    public String create(String title) {
         
-        myGame.getStatus();
-        
-        gameMap.put(id, myGame);
-        
-        JsonObject value = Json.createObjectBuilder()
-                .add("id", "" + id)
-                .add("name", game.getJsonString("name"))
-                .add("status", ""+myGame.getStatus()).build();
-        
-        gameJsonMap.put(id, value);
+        String id = UUID.randomUUID().toString().substring(0, 8);
+        Game myGame = new Game(id,title);
+       
+        games.put(id, myGame);
+      
         return id;
     }
     
-     public static JsonObject start(int id) {
-
-        JsonObject game = gameJsonMap.get(id);
-        Game myGame = gameMap.get(id);
-
-        // adding 2 dummy players
-        //myGame.addPlayer("abcd111", "Kishore");
-       // myGame.addPlayer("xyz111", "Ajay");
-        
-        //put check to see required players to start game
-        
+     public JsonObject start(String id) {
+       
+        Game myGame = games.get(id);
+        myGame.setStatus(Game.Status.Started);
+        myGame.distributeCards();
+      
         myGame.getStatus();
         
         System.out.println("testing... \n"+myGame.toString());
 
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         
-        List<Player> players = myGame.getPlayers();
-                
+        Map<String,Player> players = myGame.getPlayers();
+         /*       
         for (Player player : players) {
             
             JsonObject jsonPlayer = Json.createObjectBuilder()
@@ -126,17 +102,15 @@ public class GameManager {
         System.out.println("game - "+value.toString());
         
         gameJsonMap.put(id, value);
-        return gameJsonMap.get(id);
+        */
+        
+        return myGame.toJson();
     }
 
     
 
 
-    /**
-     * Prevent initialization.
-     */
-    private GameManager() {
-    }
+   
     
     
     
